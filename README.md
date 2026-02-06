@@ -30,7 +30,7 @@ If you plan to host this menu on your own server, please read this carefully:
 
 ## 📥 Shortcut App (PKG)
 
-For easier access, you can download the **Itemzflow/Store Shortcut PKG** from the releases page:
+For easier access, you can download the **Shortcut PKG** from the releases page:
 
 [**⬇️ Download Latest Release**](https://github.com/sinajet/PS5-Websrv-Payload-Menu/releases/)
 

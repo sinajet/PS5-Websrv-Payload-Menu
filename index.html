@@ -314,7 +314,10 @@
                 const appCache = window.applicationCache;
 
                 appCache.addEventListener('checking', () => {
-                    showToast("Checking for updates...");
+                    // تغییر مهم: فقط اگر دستگاه آنلاین بود پیام بده
+                    if (navigator.onLine) {
+                        showToast("Checking for updates...");
+                    }
                 }, false);
 
                 appCache.addEventListener('downloading', () => {
@@ -342,19 +345,20 @@
                 }, false);
 
                 appCache.addEventListener('noupdate', () => {
-                    showToast("System is Up to Date (Cached)", true);
+                    // فقط اگر آنلاین بودیم و پیام checking را نشان داده بودیم، پیام آپدیت بودن را نشان بده
+                    if (navigator.onLine) {
+                        showToast("System is Up to Date (Cached)", true);
+                    }
                 }, false);
 
                 appCache.addEventListener('error', (e) => {
-                    // On PS5 it sometimes gives an error if it has already been cached and is not net, which is not a problem
-                    // but if it is the first time the error is important
-                    console.error("Cache Error:", e);
-                    // Show the message only if there is a real problem
-                    // showToast("Cache Error - Check Connection", false, true);
+                    // اگر اروری رخ داد (مثل آفلاین بودن)، باکس پیام را کلاً مخفی کن
+                    toast.style.display = 'none';
                 }, false);
             }
         })();
     </script>
+
 
     <script src="menu-data.js"></script>
     

@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html manifest="cache.manifest">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PS5 Websrv Payload Menu By Sinajet</title>
+    <style>
+        @font-face {
+            font-family: 'Icons';
+            font-style: normal;
+            font-weight: 900;
+            src: local('Icons'), url(Icons.ttf) format('truetype');
+        }
+        .header-icon {
+            font-family: 'Icons', sans-serif;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: #121212;
+            color: #e0e0e0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            overflow: hidden;
+        }
+        
+        /* Style for the cache status bar */
+        #cache-toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #333;
+            color: #fff;
+            padding: 15px 25px;
+            border-radius: 8px;
+            border-left: 5px solid #0078d7;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            z-index: 9999;
+            display: none; /* Hidden default */
+            font-weight: bold;
+            font-size: 1rem;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(120%); }
+            to { transform: translateX(0); }
+        }
+
+        .container {
+            max-width: 1200px;
+            max-height: 540px;
+            width: 100%;
+            background-color: #1e1e1e;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+            padding: 25px;
+            margin-top: 20px;
+            border: 1px solid #333;
+            height: calc(100vh - 100px);
+            display: flex;
+            flex-direction: column;
+        }
+        
+        header {
+            text-align: center;
+            flex-shrink: 0;
+        }
+        
+        h1 {
+            color: #0078d7;
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        
+        .tabs-container {
+            display: flex;
+            margin-bottom: 25px;
+            background: #252525;
+            border-radius: 10px;
+            padding: 5px;
+            border: 1px solid #333;
+            flex-shrink: 0;
+            align-items: center;
+        }
+        
+        .tab-helper {
+            padding: 15px 12px;
+            background: #1a1a1a;
+            color: #ffffff;
+            border: 1px solid #444;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-align: center;
+            cursor: default;
+            opacity: 0.7;
+            flex-shrink: 0;
+        }
+        
+        .tab {
+            flex: 1;
+            padding: 15px 20px;
+            background: #2a2a2a;
+            color: #aaa;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            margin: 0 5px;
+            outline: none; 
+        }
+        
+        .tab.active {
+            background: #0078d7;
+            color: white;
+            box-shadow: 0 4px 8px rgba(0, 120, 215, 0.3);
+        }
+        
+        .tab-content {
+            display: none;
+            background: #252525;
+            border-radius: 10px;
+            padding: 25px;
+            border: 1px solid #333;
+            flex-grow: 1;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .menu-container {
+            height: 100%;
+            overflow-y: auto;
+            padding-left: 10px;
+            scroll-behavior: smooth;
+        }
+        
+        .menu-container::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        .menu-container::-webkit-scrollbar-track {
+            background: #2a2a2a;
+            border-radius: 4px;
+        }
+        
+        .menu-container::-webkit-scrollbar-thumb {
+            background: #0078d7;
+            border-radius: 4px;
+        }
+        
+        .menu {
+            display: grid;
+            gap: 5px;
+            padding-right: 17px;
+        }
+        
+        .menu-btn {
+            padding: 8px 15px;
+            background: linear-gradient(to right, #2a2a2a, #333);
+            color: #e0e0e0;
+            border: 1px solid #444;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 120px;
+            justify-content: center;
+            position: relative;
+            outline: none;
+        }
+        
+        .menu-btn:hover {
+            background: linear-gradient(to right, #333, #3a3a3a);
+            border-color: #555;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        }
+        
+        .menu-btn.active {
+            background: linear-gradient(to right, #0078d7, #005a9e);
+            border-color: #0094ff;
+            transform: scale(1.005);
+            box-shadow: 0 8px 16px rgba(0, 120, 215, 0.4);
+        }
+        
+        .icon-char {
+            font-family: 'Icons', sans-serif;
+            font-size: 1.8rem;
+            color: #aaa;
+            margin-bottom: 8px;
+        }
+        
+        .menu-btn.active .icon-char {
+            color: white;
+        }
+        
+        .menu-btn-title {
+            font-size: 1.1rem;
+            text-align: center;
+        }
+        
+        .menu-btn-desc {
+            font-size: 0.85rem;
+            color: #aaa;
+            text-align: center;
+            margin-top: 5px;
+        }
+        
+        .menu-btn.active .menu-btn-desc {
+            color: #e0e0e0;
+        }
+
+        .menu-indicator {
+            background: #1a1a1a;
+            border: 1px dashed #444;
+            color: #777;
+            padding: 30px;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 0.85rem;
+            grid-column: 1 / -1; 
+            margin: 5px 0;
+            user-select: none;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            color: #666;
+            font-size: 0.9rem;
+            padding-top: 5px;
+            border-top: 1px solid #333;
+            width: 100%;
+            flex-shrink: 0;
+        }
+        
+        @media (max-width: 768px) {
+            .tabs-container {
+                flex-direction: column;
+                gap: 10px;
+            }
+            .tab-helper {
+                order: -1;
+                margin-bottom: 5px;
+            }
+            .tab-helper:last-child {
+                order: 1;
+                margin-top: 5px;
+            }
+            h1 {
+                font-size: 1.8rem;
+            }
+            .container {
+                padding: 15px;
+                height: calc(100vh - 80px);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Cache status bar -->
+    <div id="cache-toast">Checking Cache...</div>
+
+    <header>
+        <h1><span class="header-icon">&#xF11B;</span> PS5 Websrv Payload Menu</h1>
+    </header>
+    
+    <div class="container"></div>
+
+    <div class="footer">
+        <p>PS5 Websrv Payload Menu By Sinajet<br>❤️Thanks to all Devs who kept the PS5 scene alive❤️</p>
+    </div>
+
+    <!-- Cache handling script (this part is critical) -->
+    <script>
+        // Dedicated cache handler for PS5 Webkit
+        (function() {
+            const toast = document.getElementById('cache-toast');
+            
+            function showToast(msg, isSuccess = false, isError = false) {
+                toast.style.display = 'block';
+                toast.innerHTML = msg;
+                if(isSuccess) {
+                    toast.style.borderLeftColor = '#4caf50'; // green
+                    setTimeout(() => { toast.style.display = 'none'; }, 4000);
+                } else if (isError) {
+                    toast.style.borderLeftColor = '#f44336'; // red
+                } else {
+                    toast.style.borderLeftColor = '#2196f3'; // blue
+                }
+            }
+
+            if (window.applicationCache) {
+                const appCache = window.applicationCache;
+
+                appCache.addEventListener('checking', () => {
+                    showToast("Checking for updates...");
+                }, false);
+
+                appCache.addEventListener('downloading', () => {
+                    showToast("Downloading new cache...");
+                }, false);
+
+                appCache.addEventListener('progress', (e) => {
+                    if (e.lengthComputable) {
+                        const percent = Math.round((e.loaded / e.total) * 100);
+                        showToast(`Caching resources: ${percent}%`);
+                    } else {
+                        showToast(`Caching resources...`);
+                    }
+                }, false);
+
+                appCache.addEventListener('cached', () => {
+                    showToast("Cache Complete! You can go Offline.", true);
+                }, false);
+
+                appCache.addEventListener('updateready', () => {
+                    if (appCache.status === appCache.UPDATEREADY) {
+                        showToast("New version ready. Reloading...", true);
+                        setTimeout(() => window.location.reload(), 1500);
+                    }
+                }, false);
+
+                appCache.addEventListener('noupdate', () => {
+                    showToast("System is Up to Date (Cached)", true);
+                }, false);
+
+                appCache.addEventListener('error', (e) => {
+                    // On PS5 it sometimes gives an error if it has already been cached and is not net, which is not a problem
+                    // but if it is the first time the error is important
+                    console.error("Cache Error:", e);
+                    // Show the message only if there is a real problem
+                    // showToast("Cache Error - Check Connection", false, true);
+                }, false);
+            }
+        })();
+    </script>
+
+    <script src="menu-data.js"></script>
+    
+    <script>
+        // ==========================================
+        // Main program logic (unchanged)
+        // ==========================================
+        document.addEventListener('DOMContentLoaded', function() {
+            let activeTabIndex = 0;
+            let activeButtonIndex = 0;
+            
+            const tabs = document.querySelectorAll('.tab');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            function setActiveTab(tabIndex) {
+                tabs.forEach(tab => tab.classList.remove('active'));
+                tabContents.forEach(content => content.classList.remove('active'));
+                tabs[tabIndex].classList.add('active');
+                tabContents[tabIndex].classList.add('active');
+                activeTabIndex = tabIndex;
+                const currentTabButtons = getCurrentTabButtons();
+                if (currentTabButtons.length > 0) {
+                    setActiveButton(0, currentTabButtons);
+                }
+            }
+            
+            function getCurrentTabButtons() {
+                const currentTabId = tabs[activeTabIndex].getAttribute('data-tab');
+                const currentTabContent = document.getElementById(currentTabId);
+                return Array.from(currentTabContent.querySelectorAll('.menu-btn'));
+            }
+            
+            function getCurrentMenuContainer() {
+                const currentTabId = tabs[activeTabIndex].getAttribute('data-tab');
+                const currentTabContent = document.getElementById(currentTabId);
+                return currentTabContent.querySelector('.menu-container');
+            }
+            
+            function setActiveButton(buttonIndex, buttons) {
+                if (!buttons) buttons = getCurrentTabButtons();
+                buttons.forEach(btn => btn.classList.remove('active'));
+                if (buttons.length > 0) {
+                    if (buttonIndex < 0) buttonIndex = 0;
+                    if (buttonIndex >= buttons.length) buttonIndex = buttons.length - 1;
+                    const targetBtn = buttons[buttonIndex];
+                    targetBtn.classList.add('active');
+                    activeButtonIndex = buttonIndex;
+                    targetBtn.focus();
+                    scrollToActiveButton(targetBtn);
+                }
+            }
+            
+            function scrollToActiveButton(activeButton) {
+                const menuContainer = getCurrentMenuContainer();
+                if (menuContainer && activeButton) {
+                    activeButton.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            }
+            
+            function activateCurrentButton() {
+                const currentTabButtons = getCurrentTabButtons();
+                if (currentTabButtons.length > 0 && activeButtonIndex >= 0) {
+                    const activeButton = currentTabButtons[activeButtonIndex];
+                    const buttonName = activeButton.querySelector('.menu-btn-title').textContent;
+                    const path = activeButton.getAttribute('data-path');
+                    let fwList = [];
+                    try {
+                        fwList = JSON.parse(activeButton.getAttribute('data-fw'));
+                    } catch (e) {
+                        fwList = ['Unknown'];
+                    }
+                    const fwString = fwList.join(', ');
+                    console.log(`Injecting: ${buttonName} from ${path}`);
+                }
+            }
+
+            document.addEventListener('keydown', function(event) {
+                const currentTabButtons = getCurrentTabButtons();
+                if (currentTabButtons.length === 0) return;
+                const len = currentTabButtons.length;
+                switch(event.keyCode) {
+                    case 116: 
+                        let prevTabIndex = (activeTabIndex - 1 + tabs.length) % tabs.length;
+                        setActiveTab(prevTabIndex);
+                        event.preventDefault(); 
+                        break;
+                    case 117:
+                        let nextTabIndex = (activeTabIndex + 1) % tabs.length;
+                        setActiveTab(nextTabIndex);
+                        event.preventDefault();
+                        break;
+                    case 38:
+                        event.preventDefault(); 
+                        let newIndexUp = (activeButtonIndex - 1 + len) % len;
+                        setActiveButton(newIndexUp, currentTabButtons);
+                        break;
+                    case 40:
+                        event.preventDefault();
+                        let newIndexDown = (activeButtonIndex + 1) % len;
+                        setActiveButton(newIndexDown, currentTabButtons);
+                        break;
+                }
+            });
+
+            document.querySelectorAll('.menu-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    const tabId = this.getAttribute('data-tab');
+                    const index = parseInt(this.getAttribute('data-index'));
+                    tabs.forEach((tab, idx) => {
+                        if (tab.getAttribute('data-tab') === tabId) {
+                            if (activeTabIndex !== idx) setActiveTab(idx);
+                        }
+                    });
+                    activeButtonIndex = index;
+                    const currentBtns = getCurrentTabButtons();
+                    currentBtns.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    activateCurrentButton();
+                });
+            });
+
+            setActiveTab(0);
+        });
+    </script>
+</body>
+</html>

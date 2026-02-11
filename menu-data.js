@@ -150,7 +150,7 @@ const container_json = {
           "dev": "by VoidWhisper/adel-ailane",
           "desc": "ShadowMount automatically detects, mounts, and installs game dumps from both internal and external storage.<br>Supports all Jailbroken PS5 firmwares running Kstuff v1.6.7<br>This ver is experimental ver and support ufs files",
           "fw": ["1.xx","2.xx","3.xx","4.xx", "5.xx", "6.xx", "7.xx", "8.xx","9.xx","10.00","10.01"],
-          "path": "payloads/tools/shadowmount-v1.3.elf"
+          "path": "payloads/tools/shadowmount-v1.4BETA.elf"
         },
         {
           "title": "ftpsrv v0.18.1", //https://github.com/ps5-payload-dev/ftpsrv

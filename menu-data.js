@@ -106,6 +106,14 @@ const container_json = {
           "fw": ["3.xx","4.xx", "5.xx", "6.xx", "7.xx", "8.xx","9.xx"],
           "path": "payloads/kstuff/kstuff-1.6.5.elf"
         },
+        {
+          "title": "Kstuff Test",
+          "icon": "\\uF09C",
+          "dev": "By sleirsgoevy/EchoStretch",
+          "desc": "Homebrew enabler,Can Install and Run PS4 FPKGs, Run PS4/5 Dump Games",
+          "fw": ["3.xx","4.xx", "5.xx", "6.xx", "7.xx", "8.xx","9.xx","10.00","10.01"],
+          "path": "payloads/kstuff/kstuff_test.elf"
+        },
       ]
     },
     {
@@ -151,6 +159,14 @@ const container_json = {
           "desc": "ShadowMount automatically detects, mounts, and installs game dumps from both internal and external storage.<br>Supports all Jailbroken PS5 firmwares running Kstuff v1.6.7<br>This ver is experimental ver and support ufs files",
           "fw": ["1.xx","2.xx","3.xx","4.xx", "5.xx", "6.xx", "7.xx", "8.xx","9.xx","10.00","10.01"],
           "path": "payloads/tools/shadowmount-v1.4BETA.elf"
+        },
+        {
+          "title": "ShadowMountPlus v1.5beta6", //https://github.com/drakmor/ShadowMountPlus
+          "icon": "\\uF56D", 
+          "dev": "by VoidWhisper/drakmor",
+          "desc": "ShadowMountPlus automatically detects, mounts, and installs game dumps from both internal and external storage<br>Supports all Jailbroken PS5 firmwares running Kstuff v1.6.7<br>This ver is experimental ver and support ufs/pfs files",
+          "fw": ["1.xx","2.xx","3.xx","4.xx", "5.xx", "6.xx", "7.xx", "8.xx","9.xx","10.00","10.01"],
+          "path": "payloads/tools/shadowmountplus-v1.5beta6.elf"
         },
         {
           "title": "ftpsrv v0.18.1", //https://github.com/ps5-payload-dev/ftpsrv
@@ -212,7 +228,7 @@ const container_json = {
           "dev": "By earthonion",
           "desc": "Sets PSN state to \"signed in\" on PS5<br>First use offact homebrew to active your user,Then use this payload",
           "fw": ["1.xx","2.xx","3.xx","4.xx", "5.xx", "6.xx", "7.xx", "8.xx","9.xx","10.00","10.01"],
-          "path": "payloads/tools/np-fake-signin-ps4.elf"
+          "path": "payloads/tools/np-fake-signin-ps5.elf"
         },
         {
           "title": "gdbsrv v0.7.3", //https://github.com/ps5-payload-dev/gdbsrv

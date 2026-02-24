@@ -286,6 +286,15 @@ const container_json = {
           "fw": ["1.xx","2.xx","3.xx","4.xx","5.xx"],
           "path": "payloads/tools/ps5-app-dumper.elf"
         }
+,
+        {
+          "title": "PS5 Browser appCache remove v1.1", //https://github.com/Storm21CH/PS5_Browser_appCache_remove
+          "icon": "\\uF2ED",
+          "dev": "By Storm",
+          "desc": "Removes the browser and User Guide appCache for all users...",
+          "fw": ["1.xx","2.xx","3.xx","4.xx", "5.xx", "6.xx", "7.xx", "8.xx","9.xx","10.00","10.01"],
+          "path": "payloads/tools/browser_appcache_remove.elf"
+        }
       ]
     }
   ]
